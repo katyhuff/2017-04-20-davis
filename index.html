@@ -1,0 +1,1056 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+		<title>Modeling and Simulation of Advanced Nuclear Reactors and Fuel Cycles</title>
+
+		<meta name="description" content="
+		Thursday, April 20, 2017
+		Bainer Hall 1026
+		4:10 - 5pm
+                Nuclear power provides the majority of our nation's safe, 
+                reliable, carbon free energy. Advanced nuclear reactors and 
+                nuclear fuel cycles promise to further improve passive safety, 
+                fuel utilization, and environmental impacts of this key energy 
+                source. This seminar will discuss open, reproducible, 
+                computational approaches to modeling and simulation of the 
+                multiple coupled physics and scales inherent to these systems. 
+                Approaches will include (1) agent based modeling of future 
+                energy growth, reprocessing, and fuel management scenarios, (2) 
+                the interplay between probabilistic and deterministic neutron 
+                transport methods for design and safety analysis, and (3) 
+                development of reactor physics kernels for the MOOSE 
+                (multiphysics object oriented simulation environment) 
+                framework.
+		">
+		<meta name="author" content="Kathryn Huff">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/simple.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+if( window.location.search.match( /print-pdf/gi ) ) {
+	var link = document.createElement( 'link' );
+	link.rel = 'stylesheet';
+	link.type = 'text/css';
+	link.href = 'css/print/pdf.css';
+	document.getElementsByTagName( 'head' )[0].appendChild( link );
+}
+		</script>
+
+		<!--[if lt IE 9]>
+			<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h2>Advanced Reactors</h2>
+					<h2>and Fuel Cycles</h2>
+					<h3>Simulation of Multiple Physics</h3>
+					<h3>at Disparate Scales</h3>
+					<br/>
+					<h3>Kathryn (Katy) Huff</h3>
+				</section>
+				<section>
+					<section>
+						<span>
+							<span class="fragment fade-out">
+								<a
+	     href="http://thehackerwithin.github.io"
+      class="image"><img
+      height="100"
+      src="http://thehackerwithin.github.io/images/thw_icon.png"
+      alt="THW"></a>
+							</span>
+							<span class="fragment fade-out">
+								<a
+	     href="http://software-carpentry.org"
+      class="image"><img
+      height="100"
+      src="http://bids.berkeley.edu/sites/default/files/styles/450x254/public/projects/software-carpentry-450x254.png?itok=0XnUCwrr"
+      alt="Software Carpentry"></a>
+							</span>
+							<span class="fragment fade-out">
+								<a
+	     href="http://physics.codes"
+      class="image"><img
+      height="150"
+      src="http://physics.codes/images/ecip.jpg"
+      alt="book"></a>
+							</span>
+							<span class="fragment fade-out">
+								<a href="http://ncsa.illinois.edu"
+	   class="image"><img
+    height="100"
+    src="http://www.ncsa.illinois.edu/assets/img/logos_ncsa.png"
+    alt="NCSA Logo"></a>
+							</span>
+							<span>
+								<a
+    href="http://fuelcycle.org"
+    class="image"><img
+    height="125"
+    src="http://fuelcycle.org/_images/logo2_bike.gif"
+    alt="cyclus"></a>
+							</span>
+							<span>
+								<a href="http://pyrk.github.io"
+	   class="image"><img
+    height="125"
+    src="http://pyrk.github.io/_images/logo.png"
+    alt="pyrk"></a>
+							</span>
+							<span>
+								<a href="http://pyne.io"
+	   class="image"><img
+    height="125"
+    src="http://bids.berkeley.edu/sites/default/files/styles/450x254/public/projects/pyne-450x254.png?itok=rdkh0T8e"
+    alt="pyne"></a>
+							</span>
+							<span>
+								<a
+    href="http://arfc.npre.illinois.edu/research/software"
+    class="image"><img
+    height="150" 
+    src="http://arfc.npre.illinois.edu/img/research/moltres.png"
+    alt="Moltres"></a>
+							</span>
+							<span>
+								<a href="http://arfc.npre.illinois.edu"
+	   class="image"><img
+    height="150"
+    src="./images/arfc-logo.png"
+    alt="ARFC Logo"></a>
+							</span>
+					</section>
+					<section>
+						<h2>Insights at Disparate Scales</h2>
+						<span class="fragment">
+							<a href="http://katyhuff.github.io/papers/research.pdf"
+	  class="image"><img
+   width="100%"
+   src="./images/synergy.png"
+   alt="synergistic insights"></a>
+						</span>
+					</section>
+					<section>
+						<span class="fragment">
+							<a href="http://arfc.npre.illinois.edu/people"
+	  class="image"><img
+   height="750"
+   src="./images/arfc-people.png"
+   alt="science is people"></a>
+						</span>
+					</section>
+				</section>
+				<section>
+					<section>
+						<a href="http://rationalwiki.org/w/images/thumb/0/0e/Fission.svg/800px-Fission.svg.png" 
+	 class="image"><img 
+  height="100%"
+  src="http://rationalwiki.org/w/images/thumb/0/0e/Fission.svg/800px-Fission.svg.png"
+  alt="Fission."></a>
+					</section>
+					<section>
+						<a href="http://rationalwiki.org/w/images/thumb/1/1f/Chainreaction.svg/715px-Chainreaction.svg.png"
+	 class="image"><img 
+  height="500"
+  src="http://rationalwiki.org/w/images/thumb/1/1f/Chainreaction.svg/715px-Chainreaction.svg.png"
+  alt="Chain reaction"></a>
+						<p class="fragment">\[\phi(E,\vec{r},\hat{\Omega},T)\]</p>
+						<p class="fragment">\[\phi(E, x, y, z, \theta, \omega, T)\]</p>
+					</section>
+					<section>
+						<a href="http://rationalwiki.org/w/images/thumb/0/0e/Fission.svg/800px-Fission.svg.png" 
+	 class="image"><img 
+  src="http://rationalwiki.org/w/images/thumb/0/0e/Fission.svg/800px-Fission.svg.png"
+  alt="Fission."></a>
+						<p class="fragment">\[\sigma(x, i, E, T)\]</p>
+					</section>
+					<section>
+						<a href="http://upload.wikimedia.org/wikipedia/commons/thumb/6/68/ThermalFissionYield.svg/800px-ThermalFissionYield.svg.png"
+	 class="image"><img 
+  src="
+  http://upload.wikimedia.org/wikipedia/commons/thumb/6/68/ThermalFissionYield.svg/800px-ThermalFissionYield.svg.png
+  "
+  alt="Fission yield"height=400></a>
+						<p class="fragment">\[\gamma(f, i)\]</p>
+					</section>
+					<section>
+						<a href="http://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Isotopes_and_half-life.svg/853px-Isotopes_and_half-life.svg.png"
+	 class="image"><img 
+  height="600"
+  src="http://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Isotopes_and_half-life.svg/853px-Isotopes_and_half-life.svg.png"
+  alt="Nucleus Stability"></a>
+						<p class="fragment">\[i\]</p>
+					</section>
+					<section>
+						<a href="http://wwwndc.jaea.go.jp/j40fig/jpeg/u235_f1.jpg"
+	 class="image"><img 
+  src="http://wwwndc.jaea.go.jp/j40fig/jpeg/u235_f1.jpg"
+  alt="Resonances"></a>
+						<p class="fragment">\[E\]</p>
+					</section>
+					<section>
+						<a href="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Liquid_drop_model.svg/2000px-Liquid_drop_model.svg.png"
+	 class="image"><img 
+  src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Liquid_drop_model.svg/2000px-Liquid_drop_model.svg.png"
+  alt="Nucleus Stability"></a>
+						<p class="fragment">nuclear structure</p>
+					</section>
+					<section>
+						<h2>Evaluated Nuclear Data Sets</h2>
+						<a href="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/res.png" 
+	 class="image"><img 
+  src="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/res.png" 
+  alt="Nuclear Resonance Theory and Evaluation"></a>
+						<p class="fragment">\[\sigma(x, i, E, T)=\] nuclear structure + experiments<p>
+					</section>
+					<section data-transition="none">
+						<h2>Experiments</h2>
+						<a href="http://exp-astro.physik.uni-frankfurt.de/exp_astro/experiments/thenewdance1b"
+	 class="image"><img 
+  height="500"
+  src="http://exp-astro.physik.uni-frankfurt.de/exp_astro/experiments/thenewdance1b"
+  alt="Schematic of a DANCE-like detector"></a>
+					</section>
+					<section data-transition='none'>
+						<h2>Experiments</h2>
+						<a href="http://wnr.lanl.gov/_assets/images/Neutron_scattering_machine_0.jpg"
+	 class="image"><img 
+  height="500"
+  src="http://wnr.lanl.gov/_assets/images/Neutron_scattering_machine_0.jpg"
+  alt="The DANCE detector at Los Alamos"></a>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Nuclear Data is for Simulations</h2>
+						<a 
+  href="http://arfc.npre.illinois.edu"
+  class="image"><img 
+  height="600"
+  src="http://arfc.npre.illinois.edu/img/research/multiphysics.png"
+  alt="PBFHR"></a>
+					</section>
+					<section>
+						<h2>Simulation Methods</h2>
+						<ul>
+							<li>Monte Carlo Methods</li>
+							<li>Deterministic Methods</li>
+							<li>Hybrid Methods</li>
+							<li>Other keywords...</li>
+							<ul>
+								<li>lattice codes</li>
+								<li>ray tracing algorithms</li>
+								<li>acceleration schemes</li>
+								<li>adjoint methods</li>
+								<li>...</li>
+							</ul>
+						</ul>
+					</section>
+					<section>
+						<h2>Application Specific Data Processing</h2>
+						<ul>
+							<li>Energy discretization </li>
+							<ul>
+								<li>multigroup</li>
+								<li>pointwise</li> 
+								<li>piecewise linear continuous</li>
+							</ul>
+							<li>Angular quadratures</li>
+							<li>Resonance integration</li>
+							<li>...</li>
+						</ul>
+					</section>
+	     <section>
+<h3>Molten Salt Reactor Designs</h3>
+		     <span>
+			     <a
+  href="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Molten_Salt_Reactor.svg/800px-Molten_Salt_Reactor.svg.png"
+  class="image"><img
+  height="600" 
+  src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Molten_Salt_Reactor.svg/800px-Molten_Salt_Reactor.svg.png"
+  alt="MSR"></a>
+		     </span>
+	     </section>
+					<section>
+						<h3>MSBR Full Core Simulation</h3>
+						<a href="https://github.com/arfc/MSR-design"
+						 class="image"><img
+height=500
+				  src="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/msbr/robertson.png"
+					  alt="MSBR"></a>
+						<p>(Robertson, 1979)</p>
+					</section>
+					<section>
+						<h3>MSBR Full Core Simulation</h3>
+						<p>Andrei Rykhlevskii</p>
+						<a href="https://github.com/arfc/MSR-design"
+						 class="image"><img
+height=500
+				  src="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/msbr/cell_msbr_ctrl.png"
+					  alt="MSBR"></a>
+					</section>
+					<section>
+						<h3>MSBR Full Core Simulation</h3>
+						<p>Andrei Rykhlevskii</p>
+						<a href="https://github.com/arfc/MSR-design"
+						 class="image"><img
+					height=500
+				  src="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/msbr/cell_msbr_zone_1.png"
+					  alt="MSBR"></a>
+					</section>
+					<section>
+						<h3>MSBR Full Core Simulation</h3>
+						<p>Andrei Rykhlevskii</p>
+						<a href="https://github.com/arfc/MSR-design"
+						 class="image"><img
+					height=500
+				  src="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/msbr/plan_msbr.png"
+					  alt="MSBR"></a>
+					</section>
+					<section>
+						<h3>MSBR Full Core Simulation</h3>
+						<p>Andrei Rykhlevskii</p>
+						<a href="https://github.com/arfc/MSR-design"
+						 class="image"><img
+					height=500
+				  src="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/msbr/elev_msbr.png"
+					  alt="MSBR"></a>
+					</section>
+					<section>
+						<h3>MSBR Full Core Simulation</h3>
+						<p>Andrei Rykhlevskii</p>
+						<a href="https://github.com/arfc/MSR-design"
+						 class="image"><img
+					height=500
+				  src="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/msbr/elev_msbr_results.png"
+					  alt="MSBR"></a>
+					</section>
+					<section>
+						<h3>MSBR Full Core Simulation</h3>
+						<p>Andrei Rykhlevskii</p>
+						<a href="https://github.com/arfc/MSR-design"
+						 class="image"><img
+					height=500
+				  src="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/msbr/plan_msbr_results.png"
+					  alt="MSBR"></a>
+					</section>
+					<section>
+						<h3>MSBR Full Core Simulation</h3>
+						<p>Andrei Rykhlevskii</p>
+						<a href="https://github.com/arfc/MSR-design"
+						 class="image"><img
+					height=500
+				  src="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/msbr/xs_msbr.png"
+					  alt="MSBR"></a>
+					</section>
+					<section>
+						<h3>MSBR Full Core Simulation</h3>
+						<p>Andrei Rykhlevskii</p>
+						<a href="https://github.com/arfc/MSR-design"
+						 class="image"><img
+					height=500
+				  src="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/msbr/flux_msbr.png"
+					  alt="MSBR"></a>
+					</section>
+					</section>
+					<section>
+					<section>
+						<h2>Reactor Kinetics</h2>
+						<a href="http://rationalwiki.org/w/images/thumb/0/0e/Fission.svg/800px-Fission.svg.png"
+	 class="image"><img
+  src="http://rationalwiki.org/w/images/thumb/0/0e/Fission.svg/800px-Fission.svg.png"
+  alt="Fission."></a>
+						<p class="fragment">\[\sigma(E,\vec{r},\hat{\Omega},T,x,i)\]</p>
+					</section>
+					<!--<section>
+	     <a href="http://wwwndc.jaea.go.jp/j40fig/jpeg/u235_f1.jpg"
+	     class="image"><img
+	     src="http://wwwndc.jaea.go.jp/j40fig/jpeg/u235_f1.jpg"
+	     alt="Resonances"></a>
+	     </section>
+					-->
+					<section>
+						<a href="http://rationalwiki.org/w/images/thumb/1/1f/Chainreaction.svg/715px-Chainreaction.svg.png"
+	 class="image"><img
+  src="http://rationalwiki.org/w/images/thumb/1/1f/Chainreaction.svg/715px-Chainreaction.svg.png"
+  alt="Chain reaction"></a>
+						<p class="fragment">\[k=1\]</p>
+					</section>
+					<!--<section>
+	     <a href="http://upload.wikimedia.org/wikipedia/commons/thumb/6/68/ThermalFissionYield.svg/800px-ThermalFissionYield.svg.png"
+	     class="image"><img
+	     height="400"
+	     src="http://upload.wikimedia.org/wikipedia/commons/thumb/6/68/ThermalFissionYield.svg/800px-ThermalFissionYield.svg.png"
+	     alt="Fission yield"></a>
+	     <p class="fragment">\[i\]</p>
+	     </section>-->
+	     <section>
+		     <h2>Reactivity</h2>
+		     \[
+		     \begin{align}
+		     k &= \mbox{"neutron multiplication factor"}\\
+		     &= \frac{\mbox{neutrons causing fission}}{\mbox{neutrons produced by fission}}\\
+		     \rho &= \frac{k-1}{k}\\
+		     \rho &= \mbox{reactivity}\\
+		     \end{align}
+		     \]
+	     </section>
+	     <section>
+		     <a href="github.com/pyrk/pyrk"
+	  class="image"><img
+   width="100%"
+   src="./images/feedback.png"
+   alt="Feedback"></a>
+	     </section>
+	     <section> <a href="http://rationalwiki.org/wiki/File:Fission.svg"
+		   class="image"><img
+     src="./images/delayed_neutron.png"
+     height="400"
+     alt="Delayed Neutrons"
+     ></a>
+		     <p class="fragment">\[\beta_i, \lambda_{d,i}\]</p>
+	     </section>
+<section>
+<h2>Point Reactor Kinetics</h2>
+<small>
+\[
+\begin{align}
+    p &= \mbox{ reactor power }\\
+    \rho(t,&T_{fuel},T_{cool},T_{mod}, T_{refl}) = \mbox{ reactivity}\\
+    \beta &= \mbox{ fraction of neutrons that are delayed}\\
+    \beta_j &= \mbox{ fraction of delayed neutrons from precursor group j}\\
+    \zeta_j &= \mbox{ concentration of precursors of group j}\\
+    \lambda_{d,j} &= \mbox{ decay constant of precursor group j}\\
+    \Lambda &= \mbox{ mean generation time }\\
+    \omega_k &= \mbox{ decay heat from FP group k}\\
+    \kappa_k &= \mbox{ heat per fission for decay FP group k}\\
+    \lambda_{FP,k} &= \mbox{ decay constant for decay FP group k}\\
+    T_i &= \mbox{ temperature of component i}
+\end{align}
+                                        \]
+</small>
+</section>
+<section>
+<small>
+\[
+   \frac{d}{dt}\left[
+    \begin{array}{c}
+      p\\
+      \zeta_1\\
+      .\\
+      \zeta_j\\
+      .\\
+      \zeta_J\\
+      \omega_1\\
+      .\\
+      \omega_k\\
+      .\\
+      \omega_K\\
+      T_{i}\\
+      .\\
+      T_{I}\\
+    \end{array}
+    \right]
+    =
+    \left[
+      \begin{array}{ c }
+        \frac{\rho(t,T_{i},\cdots)-\beta}{\Lambda}p +
+        \displaystyle\sum^{j=J}_{j=1}\lambda_{d,j}\zeta_j\\
+        \frac{\beta_1}{\Lambda} p - \lambda_{d,1}\zeta_1\\
+        .\\
+        \frac{\beta_j}{\Lambda}p-\lambda_{d,j}\zeta_j\\
+        .\\
+        \frac{\beta_J}{\Lambda}p-\lambda_{d,J}\zeta_J\\
+        \kappa_1p - \lambda_{FP,1}\omega_1\\
+        .\\
+        \kappa_kp - \lambda_{FP,k}\omega_k\\
+        .\\
+        \kappa_{k p} - \lambda_{FP,k}\omega_{k}\\
+        f_{i}(p, C_{p,i}, T_{i}, \cdots)\\
+        .\\
+        f_{I}(p, C_{p,I}, T_{I}, \cdots)\\
+      \end{array}
+      \right]
+\]
+</small>
+</section>
+
+	     <section>
+		     <span>
+			     <a
+	  href="http://mooseframework.org"
+   class="image"><img
+   height="600" 
+   src="http://mooseframework.org/static/media/wiki/images/229/9629aa4947c9233de95d8a214180bdeb/moose.png"
+   alt="MOOSE"></a>
+		     </span>
+	     </section>
+	     <section>
+		     <h2>Coupled Multi-Physics Analysis</h2>
+		     <br/>
+		     <p>Using the MOOSE framework
+		     and its <b>Jacobian-Free Newton Krylov</b> solver, severe accident <b>neutronics</b>
+		     and <b/>thermal hydraulics</b> can be simulated beautifully for simple
+		     geometries and well studied materials. (below, INL BISON work.)
+		     </p>
+		     <a href="http://www.iaea.org/OurWork/ST/NE/NEFW/Technical-Areas/NFC/documents/fuel-engineering/TM-Chengdu-2013/Presentations/Session_1/1.5_Overview_of_BISON_Multidimensional_Fuel_Performance_code_(R._Williamson).pdf"
+	  class="image"><img
+   height="362" width="564"
+		src="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/ap1000_moose.png"
+  alt="from INL, Rich Williamson"></a>
+	     </section>
+	     <section>
+		     <h2>Moltres: Dr. Alexander Lindsay</h2>
+		     <span>
+			     <a
+  href="https://github.com/arfc/moltres"
+  class="image"><img
+  height="600" 
+  src=https://yt3.ggpht.com/-m228mYexdB0/AAAAAAAAAAI/AAAAAAAAAAA/BUb24swAfxw/s900-c-k-no-mo-rj-c0xffffff/photo.jpg
+  alt="Moltres"></a>
+		     </span>
+	     </section>
+	     <section>
+		     <h3>Moltres Current Capabilities</h3>
+		     <ul>
+			<li>Navier Stokes + Multi-Group Neutron Diffusion + Kinetics</li>
+			     <li>arbitrary number of neutron energy groups</li>
+			     <li>arbitrary number of delayed neutron precursor groups</li>
+			     <li>neutron power coupled to salt temperature and flow</li>
+			     <li>Precursor capability requires discontinuous galerkin upwind scheme.</li>
+			     <li>Few group constants can be generated with SCALE-NEWT or Serpent</li>
+		     </ul>
+	     </section>
+	     <section>
+		     <h3>MSR Neutronics and TH Coupling</h3>
+		     <span>
+			     <a href="https://github.com/arfc/moltres"
+	   class="image"><img
+    height="300" 
+    src="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/moltres/nt_group_1.png"
+    alt="Moltres Base Case"></a>
+		     </span>
+		     <span>
+			     <a href="https://github.com/arfc/moltres"
+	   class="image"><img
+    height="300" 
+    src="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/moltres/nt_group_2.png"
+    alt="Moltres Base Case"></a>
+		     </span>
+		     <span>
+			     <a href="https://github.com/arfc/moltres"
+	   class="image"><img
+    height="300" 
+    src="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/moltres/temperature.png"
+    alt="Moltres Base Case"></a>
+		     </span>
+	     </section>
+	     <section>
+		     <h3>MSR Precursors</h3>
+		     <span>
+			     <a href="https://github.com/arfc/moltres"
+	   class="image"><img
+    height="400" 
+    src="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/moltres/shortest_lived_precursor.png"
+    alt="Moltres Base Case"></a>
+		     </span>
+		     <span>
+			     <a href="https://github.com/arfc/moltres"
+	   class="image"><img
+    height="400" 
+    src="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/moltres/longest_lived_precursor.png"
+    alt="Moltres Base Case"></a>
+		     </span>
+	     </section>
+	     </section>
+				<section>
+					<section>
+						<h2>Insights at Disparate Scales</h2>
+						<span class="fragment">
+							<a href="http://katyhuff.github.io/papers/research.pdf"
+	  class="image"><img
+   width="100%"
+   src="./images/synergy.png"
+   alt="synergistic insights"></a>
+						</span>
+					</section>
+					<section>
+						<a href="http://fuelcycle.org" class="image"> <img src="http://fuelcycle.org/_images/logo2_bike.gif" alt="image generated by Anthony Scopatz, Paul P.H.  Wilson, and Katy Huff"> </a>
+						<h2>A Nuclear Fuel Cycle Simulation Framework</h2>
+					</section>
+					<section data-transition="none">
+						<h2>The Nuclear Fuel Cycle</h2>
+						<p>Hundreds of discrete facilities mine,
+						mill, convert, fabricate,
+						transmute, recycle, and store
+						nuclear material.
+						</p>
+						<a href="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/simulations.png" class="image"><img
+													  width="90%"
+	       src="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/simulations.png" alt="from Paul Lisowski"></a>
+					</section>
+					<section>
+						<h2>Fuel Cycle Metrics</h2>
+						<ul>
+							<li>Mass Flow</li>
+							<ul>
+								<li>inventories, decay heat, radiotoxicity,</li>
+								<li>proliferation resistance and physical protection (PRPP) indices.</li>
+							</ul>
+							<li>Cost</li>
+							<ul>
+								<li>levelized cost of electricity,</li>
+								<li>facility life cycle costs.</li>
+							</ul>
+							<li>Economics</li>
+							<ul>
+								<li>power production, facility deployments,</li>
+								<li>dynamic pricing and feedback.</li>
+							</ul>
+							<li>Disruptions</li>
+							<ul>
+								<li>reliability, safety,</li>
+								<li>system robustness.</li>
+							</ul>
+						</ul>
+					</section>
+					<section>
+						<h3>Current Simulators</h3>
+						<ul>
+							<li>CAFCA (MIT)</li>
+							<li>COSI (CEA)</li>
+							<li>DANESS (ANL)</li>
+							<li>DESAE (Rosatom)</li>
+							<li>Evolcode (CIEMAT)</li>
+							<li>FAMILY (IAEA)</li>
+							<li>GENIUSv1 (INL)</li>
+							<li>GENIUS v2 (UW)</li>
+							<li>NFCSim (LANL)</li>
+							<li>NFCSS (IAEA)</li>
+							<li>NUWASTE (NWTRB)</li>
+							<li>ORION (NNL)</li>
+							<li>MARKAL (BNL)</li>
+							<li>VISION (INL)</li>
+						</ul>
+					</section>
+					<!--<section data-background="#4d7e65">-->
+					<section>
+						<h2>State of the Art</h2>
+						<h3>Performance</h3>
+						<ul>
+							<li><b>Speed</b> interactive time scales</li>
+							<li><b>Fidelity:</b> detail commensurate with existing challenges</li>
+							<li><b>Detail:</b> discrete material and agent tracking</li>
+							<li><b>Regional Modeling:</b> enabling international socio-economics</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Beyond the State of the Art</h2>
+						<h3>Access</h3>
+						<ul>
+							<li><b>Openness:</b> for collaboration, validation, and code sustainability.</li>
+							<li><b>Usability:</b> for a wide range of user sophistication</li>
+						</ul>
+						<h3>Extensibility</h3>
+						<ul>
+							<li><b>Modularity:</b> core infrastructure independent of proprietary or sensitive data and models
+								<li><b>Flexibility</b> with a focus on robustness for myriad potential developer extensions.
+						</ul>
+					</section>
+					<section>
+						<h2>Extensibility</h2>
+						<a
+		  href="https://raw.githubusercontent.com/katyhuff/2016-01-19-uta/gh-pages/images/framework.png"
+    class="image"><img
+    width="90%"
+    src="./images/framework.png" alt="framework"></a>
+
+					</section>
+					<section>
+						<h2>Openness</h2>
+						<a
+				 href="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/materials.png"
+     class="image"><img
+     width="50%"src="./images/openness.png"
+     alt="private, export controlled, etc."></a>
+
+					</section>
+					<section>
+						<h2>Growing Ecosystem</h2>
+						<br/>
+						<a
+     href="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/materials.png"
+     class="image">
+							<img
+     src="./images/ecosystem.png"
+     alt="a growing number of
+     scientists are adding modules
+     to cyclus."></a>
+					</section>
+					<section>
+						<h2>...Well Beyond</h2>
+						<h3>Algorithmic Sophistication</h3>
+						<ul>
+							<li><b>Efficient:</b> memory-efficient isotope tracking</li>
+							<li><b>Customizable:</b> constrained fuel supply</li>
+							<li><b>Dynamic:</b> isotopic-quality-based resource routing</li>
+							<li><b>Physics-based:</b> fuel fungibility</li>
+						</ul>
+					</section>
+					<section data-transition="none">
+						<h2>Agent Based Systems Analysis</h2>
+						<p>An agent-based simulation
+						is made up of actors and
+						communications between those
+						actors.
+						</p>
+						<a
+	      href="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/simulations.png"
+       class="image"><img
+       width="90%" src="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/simulations.png" alt="from Paul Lisowski"></a>
+					</section>
+					<section data-transition="none">
+						<h2>Agent Based Systems Analysis</h2>
+						<p>A facility might create material.</p>
+						<a href="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/sourcefacility.png" class="image"><img
+													     width="100%"
+		  src="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/sourcefacility.png" alt="source"></a>
+					</section>
+					<section data-transition="none">
+						<h2>Agent Based Systems Analysis</h2>
+						<p>It might request material.</p>
+						<a
+	      href="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/sinkfacility.png"
+       class="image"><img
+       width="100%"
+       src="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/sinkfacility.png" alt="sink"></a>
+					</section>
+					<section data-transition="none">
+						<h2>Agent Based Systems Analysis</h2>
+						<p>It might do both.</p>
+						<a
+	      href="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/facility.png"
+       class="image"><img
+       width="100%"
+       src="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/facility.png" alt="fac"></a>
+					</section>
+					<section data-transition="none">
+						<h2>Agent Based Systems Analysis</h2>
+						<p>Even simple fuel cycles have many independent agents.</p>
+						<a href="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/materials.png" class="image"><img
+													width="90%"
+	     src="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/materials.png" alt="material flow"></a>
+					</section>
+					<section data-transition="none">
+						<h2>Dynamic Resource Exchange</h2>
+						<a href="http://fuelcycle.org/_images/cep-0018-3.png" class="image"><img
+							    height="500"
+	   src="http://fuelcycle.org/_images/cep-0018-3.png" alt="abm"></a>
+						\[N_i \subset N\]
+					</section>
+					<section data-transition="none">
+						<h2>Dynamic Resource Exchange</h2>
+						<a href="http://fuelcycle.org/_images/cep-0018-4.png" class="image"><img
+							    height="500"
+	   src="http://fuelcycle.org/_images/cep-0018-4.png" alt="abm"></a>
+						\[N_j \subset N\]
+					</section>
+					<section data-transition="none">
+						<h2>Dynamic Resource Exchange</h2>
+						<a href="http://fuelcycle.org/_images/cep-0018-5-png" class="image"><img
+							    height="500"
+	   src="http://fuelcycle.org/_images/cep-0018-5.png" alt="abm"></a>
+						\[N_i \cup N_j = N\]
+					</section>
+					<section>
+						<h2>Feasibility vs. Optimization</h2>
+						<a href="http://fuelcycle.org" class="image"><img
+				     height="500"
+	 src="./images/phardness.png"
+  alt="polynomial hardness"></a>
+						<p>If a decision problem is in NP-C, then the corresponding optimization problem is NP-hard.</p>
+					</section>
+					<section>
+						<h2>Multi-Commodity Transportation Formulation</h2>
+						<a href="http://fuelcycle.org" class="image"><img
+				     src="./images/sets.png"
+	 alt="multicommoditiy transportation problem formulation"></a>
+						<a href="http://fuelcycle.org" class="image"><img
+				     src="./images/vars.png"
+	 alt="multicommoditiy transportation problem formulation"></a>
+					</section>
+					<section>
+						<h2>Multi-Commodity Transportation Formulation</h2>
+						<br/>
+						<small>
+							\[
+							\begin{align}
+							\min_{x} z &= \sum_{i\in I}\sum_{j\in J} c_{i,j}x_{i,j} & \\
+							s.t & \sum_{i\in I_s}\sum_{j\in J} a_{i,j}^k x_{i,j} \le b_s^k & \forall k\in K_s, \forall s\in S\\
+							& \sum_{J\in J_r}\sum_{i\in I} a_{i,j}^k x_{i,j} \le b_r^k & \forall k\in K_r, \forall r\in R\\
+							& x_{i,j} \in [0,x_j] & \forall i\in I, \forall j\in J
+							\end{align}
+							\]
+						</small>
+					</section>
+					<section data-transition="none">
+						<h2>Dynamic Resource Exchange</h2>
+						<a href="http://fuelcycle.org" class="image"><img
+				     width="500"
+	 src="./images/mod-open.png"
+  alt="modified open"></a>
+					</section>
+					<section data-transition="none">
+						<h2>Dynamic Resource Exchange</h2>
+						<a href="http://fuelcycle.org" class="image"><img
+				     width="500"
+	 height="600"
+  src="./images/closed.png"
+  alt="closed"></a>
+					</section>
+					<section>
+						<h2>Dynamic Resource Exchange</h2>
+						<span class="fragment">
+							<pre><code class="xml">
+   <fuel>
+     <incommodity>mox</incommodity>
+-    <outcommodity>waste</outcommodity>
++    <outcommodity>spent_fuel</outcommodity>
+     <inrecipe>mox_fresh_fuel</inrecipe>
+     <outrecipe>mox_spent_fuel</outrecipe>
+   </fuel>
+							</code></pre>
+						</span>
+					</section>
+					<section>
+						<h2>Dynamic Resource Exchange</h2>
+						<a href="http://fuelcycle.org" class="image"><img
+				     height="500"
+	 src="./images/pu-buildup.png"
+  alt="Plutonium buildup"></a>
+					</section>
+					<section>
+						<h2>Transition Analysis</h2>
+						<ul>
+							<li>LWR to SFR</li>
+							<li>$T_0 = 2015$</li>
+							<li>$T_f <= 2215$</li>
+							<li>$C_0 = 100$ GWe LWR</li>
+							<li>Annual nuclear energy demand growth: 1%</li>
+							<li>Legacy LWRs have either 60-year lifetimes or 80-year lifetimes.</li>
+							<li>Spent LWR fuel reprocessed to fabricate FR fuel</li>
+							<li>Spent FR fuel reprocessed to fabricate FR fuel</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Transition Analysis</h2>
+						<a href="http://fuelcycle.org" class="image"><img
+				     height="500"
+	 src="./images/pow_by_r_type.png"
+  alt="power deployed by reactor type."></a>
+						<p>Power generated by reactor type.</p>
+					</section>
+					<section>
+						<h2>Transition Analysis</h2>
+						<a href="http://fuelcycle.org" class="image"><img
+				     width="900"
+	 src="./images/capacity_deployed_by_type.png"
+  alt="polynomial hardness"></a>
+						<p>Capacity deployed each year, by reactor type.</p>
+					</section>
+					<section>
+						<h2>Detailed Metrics</h2>
+						<span class="fragment">
+							<a href="fuelcycle.org"
+	  class="image"><img
+   width="100%"
+   src="./images/metrics.png"
+   alt="possible metrics"></a>
+						</span>
+					</section>
+					<section>
+						<h2>Material Attractiveness</h2>
+						<span class="fragment">
+							<a href="fuelcycle.org"
+	  class="image"><img
+   width="100%"
+   src="./images/mat_attractiveness.png"
+   alt="possible metrics"></a>
+						</span>
+					</section>
+					</section>
+					<section>
+						<section>
+							<h2>How Do We Know It's Right?</h2>
+							<a 
+   href="http://www.popsci.com/sites/popsci.com/files/styles/large_1x_/public/demoncore.jpg?itok=YlYcA9-k&fc=50,50"
+   class="image"><img 
+   src="http://www.popsci.com/sites/popsci.com/files/styles/large_1x_/public/demoncore.jpg?itok=YlYcA9-k&fc=50,50"
+   alt="Dangerous ladies, Jezebel and Godiva"></a>
+						</p>
+						</section>
+						<section>
+							<h2>The Data Dilemma</h2>
+							<a 
+   href="http://bang.berkeley.edu/wp-content/uploads/ndnca-white.pdf"
+   class="image"><img 
+   src="./images/jezebel.png"
+   alt="Morgan C. White talk"></a>
+						</p>
+						</section>
+
+					</section>
+					<section>
+						<section>
+							<h2>Links</h2>
+							<ul>
+								<ul>
+									<li><a href="http://arfc.npre.illinois.edu">arfc.npre.illinois.edu</a></li>
+									<li><a href="http://kdhuff.npre.illinois.edu"> kdhuff.npre.illinois.edu </a></li>
+									<li><a href="http://fuelcycle.org"> fuelcycle.org</a></li>
+									<li><a href="http://pyrk.github.io/">pyrk.github.io</a></li>
+								</ul>
+						</section>
+					</section>
+					<section>
+						<section>
+							<h1>THE END</h1>
+							<h3>Katy Huff </h3>
+							<a href="https://katyhuff.github.io/2017-02-02-cse">katyhuff.github.io/2017-02-02-cse</a> 
+
+							<br/>
+							<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Advanced Reactors and Fuel Cycles: Simulation of Multiple Physics at Disparate Scales</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://katyhuff.github.io" property="cc:attributionName" rel="cc:attributionURL">Kathryn Huff</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="http://katyhuff.github.io/2017-02-02-cse" rel="dct:source">http://katyhuff.github.io/2017-02-02-cse</a>.  
+						</section>
+						<section>
+							<h2>A Few of My Favorite Things</h2>
+							<br/>
+							<ul>
+								<li class="fragment">C++, Python, Fortran</li>
+								<li class="fragment">xml, markdown, rst, $\LaTeX$</li>
+								<li class="fragment">Doxygen, sphinx</li>
+								<li class="fragment">CMake, conda, macports</li>
+								<li class="fragment">GoogleTest, nose</li> 
+								<li class="fragment">hdf5, sqlite</li> 
+								<li class="fragment">cython, boost, Coin</li>
+								<li class="fragment">jekyll, reveal.js, beamer</li>
+								<li class="fragment">yt, matplotlib, paraview</li>
+							</ul>
+							<p>
+							</p>
+						</section>
+						<section>
+							<a href="http://katyhuff.github.com/pbfhr" class="image"> <img src="http://fhr.nuc.berkeley.edu/wp-content/uploads/2013/08/WebSideRight.png"
+								      alt="image generated by Tommy Cisneros and the UCBerkeley FHR group"> </a>
+						</section>
+						<section>
+							<h2>Transient Coupled Physics</h2>
+							<span class="fragment">
+								<a href="http://mooseframework.org/static/media/wiki/images/229/9629aa4947c9233de95d8a214180bdeb/moose.png"
+	   class="image"><img
+    src="http://mooseframework.org/static/media/wiki/images/229/9629aa4947c9233de95d8a214180bdeb/moose.png"
+    height="600"
+    alt="synergistic insights"></a>
+							</span>
+						</section>
+						<section>
+							<a href="http://fuelcycle.org" class="image"> <img src="http://fuelcycle.org/_images/logo2_bike.gif" alt="image generated by Anthony Scopatz, Paul P.H.  Wilson, and Katy Huff"> </a>
+							<h2>A Nuclear Fuel Cycle Simulation Framework</h2>
+						</section>
+						<section data-transition="none">
+							<h2>Agent Based Systems Analysis</h2>
+							<br/>
+							<p>Hundreds of discrete facilities mine, 
+							mill, convert, fabricate, 
+							transmute, recycle, and store 
+							nuclear material. 
+							</p>
+							<a href="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/simulations.png" class="image"><img height="362" width="564" src="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/simulations.png" alt="from Paul Lisowski"></a>
+						</section>
+						<section data-transition="none">
+							<h2>Agent Based Systems Analysis</h2>
+							<p>A facility might create material.</p>
+							<a href="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/sourcefacility.png" class="image"><img src="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/sourcefacility.png" alt="source"></a>
+						</section>
+						<section data-transition="none">
+							<h2>Agent Based Systems Analysis</h2>
+							<p>It might request material.</p>
+							<a href="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/sinkfacility.png" class="image"><img src="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/sinkfacility.png" alt="sink"></a>
+						</section>
+						<section data-transition="none">
+							<h2>Agent Based Systems Analysis</h2>
+							<p>It might do both.</p>
+							<a href="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/facility.png" class="image"><img src="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/facility.png" alt="fac"></a>
+						</section>
+						<section data-transition="none">
+							<h2>Agent Based Systems Analysis</h2>
+							<p>Even simple fuel cycles have many independent agents.</p>
+							<a href="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/materials.png" class="image"><img height="362" width="564"src="https://raw.githubusercontent.com/katyhuff/2017-02-02-cse/gh-pages/images/materials.png" alt="material flow"></a>
+						</section>
+					</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+	controls: true,
+	progress: true,
+	history: true,
+	center: true,
+
+	theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+	transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+	// Parallax scrolling
+	// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+	// parallaxBackgroundSize: '2100px 900px',
+
+	// Optional libraries used to extend on reveal.js
+
+        // Optional libraries used to extend on reveal.js
+        math: {
+                mathjax: 'https://cdn.mathjax.org/mathjax/latest/MathJax.js',
+                config: 'TeX-AMS_HTML-full'  // See http://docs.mathjax.org/en/latest/config-files.html
+            },
+	dependencies: [
+	{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+	{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+	{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+	{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+	{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+	{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+	{ src: 'plugin/math/math.js', async: true }
+	]
+});
+
+		</script>
+	</body>
+</html>
