@@ -928,6 +928,162 @@ height=500
    alt="Morgan C. White talk"></a>
 						</p>
 						</section>
+<section>
+  <h2>Quality Control</h2>
+<!--  <ul>
+    	<li> Unit Checking: Pint (github.com/pint)</li>
+    	<li> Version Control: Git & GitHub (github.com/pyrk/pyrk)</li>
+    	<li> Automated Documentation: Sphinx (pyrk.github.io)</li>
+    	<li> Test Suite: nose</li>
+    	<li> Continuous Integration: Travis (travis-ci.org/pyrk/pyrk)</li>
+    	<li> Plotting: Matplotlib</li>
+    	<li> ODE solvers: SciPy</li>
+  </ul>
+  -->
+
+                                        <blockquote cite="Merton, R.K. 'The
+                                          Normative Structure of Science'. In:
+                                          Merton, R. K., The Sociology of
+                                          Science: Theoretical and Empirical
+                                          Investigations, Chicago, IL:
+                                          University Of Chicago
+                                          Press, 1942.">
+                                                &ldquo;
+                                                Organized Skepticism.
+                                                Scientists are critical: All
+                                                ideas must be tested and are
+                                                subject to rigorous structured
+                                                community scrutiny.&rdquo; - R.K.
+                                                Merton, 1942
+                                        </blockquote>
+
+
+</section>
+<section>
+  <h2>Unit Checking</h2>
+                                                <a href=""
+                                                  class="image"><img
+                                                  src="./images/pint_pyrk.png"
+                                                  height="400"
+                                                  alt="Pint"></a>
+<br/>In PyRK, the Pint package (pint.readthedocs.org/en/0.6/) is used keeping track
+of units, converting between them, and throwing errors when unit
+conversions are not sane.
+</section>
+					<section>
+                                        <h2>Backing Up Files</h2>
+                                        <ul>
+                                          <li class="fragment">
+                                            <b>Good:</b> hope</li>
+                                          <li class="fragment">
+                                            <b>Better:</b>
+                                            nightly emails</li>
+                                          <li class="fragment">
+                                            <b style="color:green">Best:</b>
+                                            remote version control</li>
+                                        </ul>
+
+                                        <br/>
+                                        <br/>
+                                        <p class="fragment">
+                                        <b style="color:blue">Version Control Systems:</b>
+                                        cvs, svn, hg, <b>git</b></p>
+                                        </section>
+                    <section>
+                                        <h2>Managing Changes</h2>
+                                        <ul>
+                                          <li class="fragment">
+                                            <b>Good:</b>
+                                            naming convention</li>
+
+                                          <li class="fragment">
+                                            <b>Better:</b>
+                                            clever naming convention</li>
+                                                <li class="fragment">
+                                                  <b style="color:green">Best:</b>
+                                              local version control</li>
+
+                                        </ul>
+                                        <p class="fragment">
+                                               <a href=""
+                                                  class="image"><img src="./images/git_vc.jpeg"
+                                                  alt="Version Control."></a>
+                                                </p>
+                                        </section>
+<section>
+  <h2>Version Control</h2>
+                                                <a href=""
+                                                  class="image"><img
+                                                  src="./images/github_pyrk.png"
+                                                  height="400"
+                                                  alt="Docs"></a>
+<br/>Keeping track of versions of the code makes it possible to experiment without
+fear and placing the code online encourages use and collaboration.
+</section>
+<section>
+  <h2>Automated Documentation</h2>
+                                                <a href=""
+                                                  class="image"><img
+                                                  src="./images/doc_pyrk.png"
+                                                  height="400"
+                                                  alt="Docs"></a>
+<br/>Automated documentation creates a browsable website explaining the most recent version of the code.
+</section>
+<section>
+<h2>Error Detection</h2>
+                                        <blockquote cite="Donoho, Reproducible
+                                          Research in
+                                          Computational Harmonic Analysis,
+                                          2009.">
+                                        &ldquo;
+                                        The scientific method’s central
+                                        motivation is the ubiquity of error—the
+                                        awareness
+                                        that mistakes and self-delusion can
+                                        creep in
+                                        absolutely anywhere and that the
+                                        scientist’s effort
+                                        is primarily expended in recognizing
+                                        and rooting
+                                        out error.
+                                        &rdquo; - Donoho, 2009.
+                                      </blockquote>
+                    </section>
+                    <section>
+                                        <h2>Error Detection</h2>
+                                        <ul>
+                                          <li class="fragment">
+                                            <b>Good:</b>
+                                            show results to experts</li>
+                                          <li class="fragment">
+                                            <b>Better:</b>
+                                            integration testing</li>
+                                          <li class="fragment">
+                                            <b style="color:green">Best:</b>
+                                        unit test suite, continuous integration</li>
+                                        </ul>
+                                        </section>
+<section>
+  <h2>Test Suite</h2>
+                                                <a href=""
+                                                  class="image"><img
+                                                  src="./images/tests_pyrk.png"
+                                                  height="400"
+                                                  alt="Docs"></a>
+<br/>The classes and functions that make up the code are tested individually for
+robustness using nose.
+</section>
+
+<section>
+  <h2>Continuous Integration</h2>
+                                                <a href=""
+                                                  class="image"><img
+                                                  src="./images/travis_pyrk.png"
+                                                  height="400"
+                                                  alt="Docs"></a>
+<br/>The tests are run every time a change is made to the repository online. The results are public. If a main branch has a failed test, I get
+    an email.
+</section>
 
 					</section>
 					<section>
